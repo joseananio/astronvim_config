@@ -7,7 +7,17 @@ return {
     opts = function(_, opts)
       -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        -- "lua_ls",
+        "lua_ls",
+        "pyright",
+        "tsserver",
+        "gopls",
+        "dockerls",
+        "docker_compose_language_service",
+        "yamlls",
+        "volar", --vue
+        "tailwindcss",
+        "graphql",
+        "cssmodules_ls",
       })
     end,
   },
@@ -18,8 +28,8 @@ return {
     opts = function(_, opts)
       -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        -- "prettier",
-        -- "stylua",
+        "prettier",
+        "stylua",
       })
     end,
   },
@@ -29,8 +39,15 @@ return {
     opts = function(_, opts)
       -- add more things to the ensure_installed table protecting against community packs modifying it
       opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        -- "python",
+        "python",
       })
+    end,
+  },
+  {
+    "vuki656/package-info.nvim",
+    opts = function(_, opts)
+      --
+      -- opts.ensure_installed = require "MunifTanjim/nui.nvim"
     end,
   },
 }

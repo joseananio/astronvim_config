@@ -9,4 +9,42 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+    event = "User AstroFile",
+    keys = {
+      { "<leader>tdl", "<cmd>TodoTelescope<cr>", desc = "Open todos in telescope" },
+    },
+  },
+  {
+    "antonk52/bad-practices.nvim",
+    opts = {
+      most_splits = 3,
+      most_tabs = 3,
+      max_hjkl = 10,
+    },
+  },
+  {
+    "m4xshen/smartcolumn.nvim",
+    opts = {
+      colorcolumn = 100,
+      disabled_filetypes = { "help" },
+    },
+  },
+  {
+    "vuki656/package-info.nvim",
+    opts = {},
+    config = function()
+      require("package-info").setup {
+        -- hide_up_to_date = true,
+        autostart = true,
+        colors = {
+          up_to_date = "2",
+          outdated = "1",
+        },
+      }
+    end,
+  },
 }

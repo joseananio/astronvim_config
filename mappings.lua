@@ -1,3 +1,5 @@
+local utils = require "astronvim.utils"
+
 -- Mapping data with "desc" stored directly by vim.keymap.set().
 --
 -- Please use this mappings table to set keyboard mapping since this is the
@@ -32,9 +34,67 @@ return {
     ["<leader>b"] = { name = "Buffers" },
     -- quick save
     -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+    -- Overrides
+    ["<leader>o"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer - ovr" },
+    ["<leader>e"] = {
+      function()
+        if vim.bo.filetype == "neo-tree" then
+          vim.cmd.wincmd "p"
+        else
+          vim.cmd.Neotree "focus"
+        end
+      end,
+      desc = "New Toggle Explorer Focus - ovr",
+    },
+    ["<leader>ts"] = { "<cmd>TermSelect<cr>", desc = "Select terminal - ovr" },
+    ["<leader>ta"] = { "<cmd>ToggleTerm name=app direction=float<cr>", desc = "App terminal - ovr" },
+
+    -- vuki656/package-info
+    ["<leader>ks"] = {
+      function() require("package-info").show() end,
+      desc = "Show dependency versions",
+      silent = true,
+      noremap = true,
+    },
+    ["<leader>kh"] = {
+      function() require("package-info").hide() end,
+      desc = "Hide dependency versions",
+      silent = true,
+      noremap = true,
+    },
+    ["<leader>kt"] = {
+      function() require("package-info").toggle() end,
+      desc = "Toggle dependency versions",
+      silent = true,
+      noremap = true,
+    },
+    ["<leader>ka"] = {
+      function() require("package-info").install() end,
+      desc = "Add dependency",
+      silent = true,
+      noremap = true,
+    },
+    ["<leader>kc"] = {
+      function() require("package-info").change_version() end,
+      desc = "Change version on the line",
+      silent = true,
+      noremap = true,
+    },
+    ["<leader>ku"] = {
+      function() require("package-info").update() end,
+      desc = "Update dependency on the line",
+      silent = true,
+      noremap = true,
+    },
+    ["<leader>kd"] = {
+      function() require("package-info").delete() end,
+      desc = "Delete dependency on the line",
+      silent = true,
+      noremap = true,
+    },
   },
   t = {
     -- setting a mapping to false will disable it
-    -- ["<esc>"] = false,
+    -- ["<esc>"] = true,
   },
 }
