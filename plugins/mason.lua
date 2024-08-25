@@ -43,11 +43,4 @@ return {
       })
     end,
   },
-  {
-    "vuki656/package-info.nvim",
-    opts = function(_, opts)
-      --
-      -- opts.ensure_installed = require "MunifTanjim/nui.nvim"
-    end,
-  },
 }

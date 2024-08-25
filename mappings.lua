@@ -35,8 +35,8 @@ return {
     -- quick save
     -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
     -- Overrides
-    ["<leader>o"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer - ovr" },
-    ["<leader>e"] = {
+    ["<leader>e"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer - ovr" },
+    ["<leader>o"] = {
       function()
         if vim.bo.filetype == "neo-tree" then
           vim.cmd.wincmd "p"
@@ -48,6 +48,10 @@ return {
     },
     ["<leader>ts"] = { "<cmd>TermSelect<cr>", desc = "Select terminal - ovr" },
     ["<leader>ta"] = { "<cmd>ToggleTerm name=app direction=float<cr>", desc = "App terminal - ovr" },
+    ["<CR>h"] = { "<cmd>C-U>TmuxNavigateLeft<cr>", desc = "Left" },
+    ["<CR>j"] = { "<cmd>C-U>TmuxNavigateDown<cr>", desc = "down" },
+    ["<CR>k"] = { "<cmd>C-U>TmuxNavigateUp<cr>", desc = "up" },
+    ["<CR>l"] = { "<cmd>C-U>TmuxNavigateRight<cr>", desc = "right" },
 
     -- vuki656/package-info
     ["<leader>ks"] = {
