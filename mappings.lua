@@ -96,6 +96,12 @@ return {
       silent = true,
       noremap = true,
     },
+    ["<leader>fg"] = {
+      function() require("telescope.builtin").live_grep { search_dirs = { "src" } } end,
+      desc = "Search in src only",
+      silent = true,
+      noremap = true,
+    },
   },
   t = {
     -- setting a mapping to false will disable it

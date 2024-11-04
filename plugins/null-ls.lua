@@ -12,6 +12,15 @@ return {
       -- null_ls.builtins.formatting.stylua,
       -- null_ls.builtins.formatting.prettier.with,
     }
+
+    local null_ls = require "null-ls"
+    table.insert(
+      config.sources,
+      null_ls.builtins.formatting.prettier.with {
+        extra_filetypes = { "mdx" }, -- Add MDX as an additional filetype
+      }
+    )
+
     return config -- return final config table
   end,
 }

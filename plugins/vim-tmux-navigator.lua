@@ -1,3 +1,4 @@
+-- Allows easy navigation between nvim and tmux panels
 return {
   "christoomey/vim-tmux-navigator",
   cmd = {

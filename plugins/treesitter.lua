@@ -10,7 +10,12 @@ return {
       "graphql",
       "tsx",
       "html",
+      "markdown",
+      "markdown_inline",
       "css",
     })
+    -- read mdx files with the highlight for markdown files
+    local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
+    ft_to_parser.mdx = "markdown"
   end,
 }
