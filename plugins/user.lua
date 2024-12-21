@@ -34,6 +34,8 @@ return {
     },
   },
   -- Add vim-ripgrep plugin
+  -- use Rg old_text to search for text and populate the quickfix list
+  -- run :cfdo %s/old/new/gc | update to apply the substitution
   {
     "jremmen/vim-ripgrep",
     lazy = false, -- Load immediately

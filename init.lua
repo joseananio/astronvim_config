@@ -83,6 +83,7 @@ return {
     }
 
     -- Define the RgReplace command
+    -- Use as :RgReplace old_text new_text
     vim.api.nvim_create_user_command("RgReplace", function(args)
       local old = args.fargs[1] -- The text to find
       local new = args.fargs[2] -- The text to replace
