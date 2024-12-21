@@ -81,5 +81,35 @@ return {
       --   ["~/%.config/foo/.*"] = "fooscript",
       -- },
     }
+
+    -- Define the RgReplace command
+    vim.api.nvim_create_user_command("RgReplace", function(args)
+      local old = args.fargs[1] -- The text to find
+      local new = args.fargs[2] -- The text to replace
+      if not old or not new then
+        vim.notify("Usage: RgReplace <old> <new>", vim.log.levels.ERROR)
+        return
+      end
+
+      -- Use ripgrep to find files with the old text
+      local rg_cmd = "rg --files-with-matches " .. vim.fn.shellescape(old)
+      local result = vim.fn.systemlist(rg_cmd)
+
+      if vim.v.shell_error ~= 0 then
+        vim.notify("Ripgrep failed: " .. table.concat(result, "\n"), vim.log.levels.ERROR)
+        return
+      end
+
+      -- Load the results into the argument list
+      vim.cmd("args " .. table.concat(result, " "))
+
+      -- Perform the find and replace on each file
+      vim.cmd(string.format("argdo %%s/%s/%s/g | update", vim.fn.escape(old, "/"), vim.fn.escape(new, "/")))
+
+      vim.notify("Replacement complete!", vim.log.levels.INFO)
+    end, {
+      nargs = "+",
+      desc = "Find and replace text using ripgrep",
+    })
   end,
 }
