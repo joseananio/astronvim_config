@@ -33,4 +33,13 @@ return {
       disabled_filetypes = { "help" },
     },
   },
+  -- Add vim-ripgrep plugin
+  {
+    "jremmen/vim-ripgrep",
+    lazy = false, -- Load immediately
+    config = function()
+      -- Optional: Define custom keybindings or configurations here
+      vim.g.rg_command = "rg --vimgrep" -- Use ripgrep with vimgrep format
+    end,
+  },
 }
