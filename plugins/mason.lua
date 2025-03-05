@@ -9,8 +9,8 @@ return {
       opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
         "lua_ls",
         "pyright",
-        "tsserver",
         "gopls",
+        "vtsls", -- typescript, javascript
         "dockerls",
         "docker_compose_language_service",
         "yamlls",

@@ -15,7 +15,7 @@ return {
             },
           },
         },
-        tsserver = {
+        vtsls = {
           filetypes = { "typescript", "typescriptreact", "typescript.tsx", "mdx", "typescript.mdx" },
         },
       },
