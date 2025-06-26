@@ -1,36 +1,46 @@
-# AstroNvim User Configuration Example
+# AstroNvim Setup
 
 A user configuration template for [AstroNvim](https://github.com/AstroNvim/AstroNvim)
 
 ## 🛠️ Installation
 
-#### Make a backup of your current nvim and shared folder
+#### Clone this repository and cd into it
 
 ```shell
-mv ~/.config/nvim ~/.config/nvim.bak
-mv ~/.local/share/nvim ~/.local/share/nvim.bak
+git clone <repo> && cd dir
 ```
 
-#### Clone AstroNvim
+#### Make a backup of your current nvim and shared folder and clone a new AstroNvim
 
 ```shell
-git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+./scripts/atronvim_manager.sh reinstall
 ```
 
-#### Create a new user repository from this template
+Quit nvim and rerun
 
-Press the "Use this template" button above to create a new repository to store your user configuration.
+- Ensure the `lazy_setup.lua` imports `lua/user/plugins`, else add it
 
-You can also just clone this repository directly if you do not want to track your user configuration in GitHub.
-
-#### Clone the repository
-
-```shell
-git clone https://github.com/<your_user>/<your_repository> ~/.config/nvim/lua/user
+```lua
+  { import = "user/plugins" },
 ```
 
-#### Start Neovim
+and in nvim/init.lua, at the end
+
+```lua
+require "user"
+```
 
 ```shell
 nvim
+:Lazy
 ```
+
+> Treesitter, Mason Tools and Lazy should all run to install packages
+
+### Customization
+
+Everything can be modified in the user directory
+
+- All packages are in the user/plugins/packages.lua
+- Keybindings are in the mappings file
+- Lsp-config contains extra configurations for the packages
