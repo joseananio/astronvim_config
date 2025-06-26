@@ -1,4 +1,4 @@
-- Configure lsp servers
+-- Configure lsp servers
 return {
   {
     "neovim/nvim-lspconfig",

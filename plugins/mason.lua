@@ -1,45 +1,40 @@
--- customize mason plugins
 return {
-  -- use mason-lspconfig to configure LSP installations
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup({
+        ui = {
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "x",
+          },
+        },
+      })
+    end,
+  },
   {
     "williamboman/mason-lspconfig.nvim",
-    -- overrides `require("mason-lspconfig").setup(...)`
-    opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
-      opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        "lua_ls",
-        "pyright",
-        "gopls",
-        "vtsls", -- typescript, javascript
-        "dockerls",
-        "docker_compose_language_service",
-        "yamlls",
-        "volar", --vue
-        "tailwindcss",
-        "graphql",
-        "cssmodules_ls",
-      })
-    end,
-  },
-  -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
-  {
-    "jay-babu/mason-null-ls.nvim",
-    -- overrides `require("mason-null-ls").setup(...)`
-    opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
-      opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        "prettier",
-        "stylua",
-      })
+    config = function()
+      require("mason-lspconfig").setup()
     end,
   },
   {
-    "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
-    opts = function(_, opts)
-      -- add more things to the ensure_installed table protecting against community packs modifying it
-      opts.ensure_installed = require("astronvim.utils").list_insert_unique(opts.ensure_installed, {
-        "python",
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    config = function()
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "lua-language-server",
+          "marksman",
+          "prettier",
+          "python-lsp-server",
+          "rust-analyzer",
+          "shellcheck",
+          "shellharden",
+          "vtsls",
+          "stylua",
+          "zls",
+        },
       })
     end,
   },
