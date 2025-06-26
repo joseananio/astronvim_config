@@ -1,3 +1,4 @@
+- Configure lsp servers
 return {
   {
     "neovim/nvim-lspconfig",
@@ -16,7 +17,7 @@ return {
           },
         },
         vtsls = {
-          filetypes = { "typescript", "typescriptreact", "typescript.tsx", "mdx", "typescript.mdx" },
+          filetypes = { "typescript", "typescriptreact", "typescript.tsx", "mdx", "typescript.mdx", "md" },
         },
       },
     },
