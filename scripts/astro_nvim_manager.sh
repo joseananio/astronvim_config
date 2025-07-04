@@ -79,8 +79,10 @@ case "$MODE" in
       [[ -e "$f" ]] && mv "$f" "$CFG/lua/old/"
     done
     # copy your own files
-    cp -a "$SRC"/{plugins,community.lua,init.lua,polish.lua} "$CFG/lua/" 2>/dev/null || true
-
+    # cp -a "$SRC"/{plugins,community.lua,init.lua,polish.lua} "$CFG/lua/" 2>/dev/null || true
+    for src in "$SRC/lua*"; do
+      ln -sf "$PWD/$src" ~/.config/nvim/lua/
+    done
     # 4. (Optional) Headless sync --------------------------------------
     # echo "🔧  Bootstrapping plugins (headless)…"
     # nvim --headless +'AstroUpdate' +'qall'
