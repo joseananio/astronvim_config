@@ -1,16 +1,13 @@
+-- You can also add or configure plugins by creating files in this `plugins/` folder
+-- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
+-- Here are some examples:
+
+---@type LazySpec
 return {
   { "folke/trouble.nvim", enabled = false },
 
   -- For curbing bad practtices
 
-  {
-    "antonk52/bad-practices.nvim",
-    opts = {
-      most_splits = 5, -- how many splits are considered a good practice(default: 3)
-      most_tabs = 3, -- how many tabs are considered a good practice(default: 3)
-      max_hjkl = 10, -- how many times you can spam hjkl keys in a row(default: 10)
-    },
-  },
   {
     "m4xshen/hardtime.nvim",
     event = "User AstroFile",
@@ -31,41 +28,6 @@ return {
     end,
   },
 
-  -- use mason-tool-installer for automatically installing Mason packages
-
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    -- overrides `require("mason-tool-installer").setup(...)`
-    opts = {
-      -- Make sure to use the names found in `:Mason`
-      ensure_installed = {
-        -- install language servers
-        "lua-language-server",
-
-        -- css
-        "css-lsp",
-        "cssmodules-language-server",
-        "css-variables-language-server",
-        "tailwindcss-language-server",
-
-        -- js/ts
-        "typescript-language-server",
-        "eslint-lsp",
-
-        -- formatters
-        "prettierd",
-        "stylua",
-        -- "eslint_d", -- we use pretter
-
-        -- install debuggers
-        "debugpy",
-
-        -- install any other package
-        "tree-sitter-cli",
-      },
-    },
-  },
-
   -- To surround contents with quotes
 
   {
@@ -83,18 +45,34 @@ return {
 
   {
     "vuki656/package-info.nvim",
-    opts = {},
-    config = function()
-      require("package-info").setup {
-        hide_up_to_date = true,
-        hide_unstable_versions = true,
-        autostart = true,
-        colors = {
-          up_to_date = "2",
-          outdated = "1",
-        },
-      }
-    end,
+    ft = { "json" }, -- loads only for package.json / lockfiles
+    dependencies = { "MunifTanjim/nui.nvim" },
+
+    --------------------------------
+    -- 1. plugin-level key-maps ----
+    --------------------------------
+    keys = {
+      { "<leader>ks", function() require("package-info").show() end, desc = "Show dep versions" },
+      { "<leader>kh", function() require("package-info").hide() end, desc = "Hide dep versions" },
+      { "<leader>kt", function() require("package-info").toggle() end, desc = "Toggle dep versions" },
+      { "<leader>ka", function() require("package-info").install() end, desc = "Add dependency" },
+      { "<leader>kc", function() require("package-info").change_version() end, desc = "Change version" },
+      { "<leader>ku", function() require("package-info").update() end, desc = "Update dependency" },
+      { "<leader>kd", function() require("package-info").delete() end, desc = "Delete dependency" },
+    },
+
+    --------------------------------
+    -- 2. plugin settings ---------
+    --------------------------------
+    opts = {
+      hide_up_to_date = true,
+      hide_unstable_versions = true,
+      autostart = true,
+      colors = {
+        up_to_date = "2",
+        outdated = "1",
+      },
+    },
   },
 
   -- Managing comments marked as TODO. Can track them in telescope
@@ -173,6 +151,7 @@ return {
   },
 
   -- Syntax highlighting
+  -- NOTE: we use this and not the treesitter.lua one
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -195,31 +174,5 @@ return {
       -- read mdx files with the highlight for markdown files
       vim.treesitter.language.register("markdown", "mdx")
     end,
-  },
-  {
-    "AstroNvim/astrocore",
-    opts = {
-      mappings = {
-        n = {
-          ["<CR>h"] = { "<cmd>C-U>TmuxNavigateLeft<cr>", desc = "Tmux ←" },
-          ["<CR>j"] = { "<cmd>C-U>TmuxNavigateDown<cr>", desc = "Tmux ↓" },
-          ["<CR>k"] = { "<cmd>C-U>TmuxNavigateUp<cr>", desc = "Tmux ↑" },
-          ["<CR>l"] = { "<cmd>C-U>TmuxNavigateRight<cr>", desc = "Tmux →" },
-
-          ["<leader>b"] = { desc = "Buffers" },
-          ["<leader>bD"] = {
-            function()
-              require("astroui.status").heirline.buffer_picker(
-                function(bufnr) require("astrocore.buffer").close(bufnr) end
-              )
-            end,
-            desc = "Pick to close",
-          },
-
-          -- …the rest of your mappings…
-        },
-        t = {},
-      },
-    },
   },
 }
