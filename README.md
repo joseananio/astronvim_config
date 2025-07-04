@@ -13,7 +13,7 @@ git clone <repo> && cd dir
 #### Make a backup of your current nvim and shared folder and clone a new AstroNvim
 
 ```shell
-./scripts/atronvim_manager.sh reinstall
+./atronvim_manager.sh reinstall
 ```
 
 Quit nvim and rerun
@@ -27,8 +27,8 @@ nvim
 
 ### Customization
 
-Everything can be modified in the user directory
+Everything can be modified in the plugins, community.lua and polish.lua directory
 
-- All packages are in the user/plugins/packages.lua
-- Keybindings are in the mappings file
-- Lsp-config contains extra configurations for the packages
+- Package-specific mappings -> plugins/user.package definitions
+- General mappings -> plugins/astrocore.lua
+- LSP-specific mappings -> plugins/astrolsp.lua
