@@ -1,18 +1,12 @@
 return {
-  -- Add the community repository of plugin specifications
-  "AstroNvim/astrocommunity",
-  -- example of importing a plugin, comment out to use it or add your own
-  -- available plugins can be found at https://github.com/AstroNvim/astrocommunity
-
-  { import = "astrocommunity.colorscheme.catppuccin" },
-  { import = "astrocommunity.colorscheme.rose-pine" },
+  { "folke/trouble.nvim", enabled = false },
 
   -- For curbing bad practtices
 
   {
     "antonk52/bad-practices.nvim",
     opts = {
-      most_splits = 3, -- how many splits are considered a good practice(default: 3)
+      most_splits = 5, -- how many splits are considered a good practice(default: 3)
       most_tabs = 3, -- how many tabs are considered a good practice(default: 3)
       max_hjkl = 10, -- how many times you can spam hjkl keys in a row(default: 10)
     },
@@ -35,6 +29,41 @@ return {
       require("hardtime").setup(opts)
       require("hardtime").enable()
     end,
+  },
+
+  -- use mason-tool-installer for automatically installing Mason packages
+
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    -- overrides `require("mason-tool-installer").setup(...)`
+    opts = {
+      -- Make sure to use the names found in `:Mason`
+      ensure_installed = {
+        -- install language servers
+        "lua-language-server",
+
+        -- css
+        "css-lsp",
+        "cssmodules-language-server",
+        "css-variables-language-server",
+        "tailwindcss-language-server",
+
+        -- js/ts
+        "typescript-language-server",
+        "eslint-lsp",
+
+        -- formatters
+        "prettierd",
+        "stylua",
+        -- "eslint_d", -- we use pretter
+
+        -- install debuggers
+        "debugpy",
+
+        -- install any other package
+        "tree-sitter-cli",
+      },
+    },
   },
 
   -- To surround contents with quotes

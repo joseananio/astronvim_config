@@ -85,12 +85,12 @@ return {
           },
 
           -- Telescope live_grep in `src/`
-          ["<leader>fg"] = {
-            function() require("telescope.builtin").live_grep { search_dirs = { "src" } } end,
-            desc = "Search in src only",
-            silent = true,
-            noremap = true,
-          },
+          -- ["<leader>fg"] = {
+          --   function() require("telescope.builtin").live_grep { search_dirs = { "src" } } end,
+          --   desc = "Search in src only",
+          --   silent = true,
+          --   noremap = true,
+          -- },
         },
         t = {
           -- terminal-mode mappings (if any) go here

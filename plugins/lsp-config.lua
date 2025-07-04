@@ -4,6 +4,12 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        eslint = { -- lspconfig name
+          settings = {
+            codeAction = { showDocumentation = { enable = true } },
+            format = { enable = false }, -- leave formatting to Prettier/eslint_d
+          },
+        },
         pyright = {
           settings = {
             python = {

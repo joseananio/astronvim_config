@@ -1,86 +1,109 @@
 #!/usr/bin/env bash
+# astro-bootstrap.sh  — backup / reinstall / delete AstroNvim data
+# Usage:
+#   ./astro-bootstrap.sh reinstall <path-to-user-config>
+#   ./astro-bootstrap.sh delete
 set -euo pipefail
 
-# Directories to manage (XDG defaults)
-DIRS=(
-  "$HOME/.config/nvim"
-  "$HOME/.local/share/nvim"
-  "$HOME/.local/state/nvim"
-  "$HOME/.cache/nvim"
-)
+# AstroNvim’s XDG paths ────────────────────────────────────────────────
+CFG="$HOME/.config/nvim"
+SHARE="$HOME/.local/share/nvim"
+STATE="$HOME/.local/state/nvim"
+CACHE="$HOME/.cache/nvim"
+DIRS=("$CFG" "$SHARE" "$STATE" "$CACHE")
 
-usage() {
+print_usage() {
   cat <<EOF
-Usage: $(basename "$0") <mode>
+Usage:
+  $(basename "$0") reinstall <user-config-dir>
+  $(basename "$0") delete
 
 Modes:
-  reinstall   Backup existing AstroNvim config & data, then install fresh.
-  delete      Permanently delete all AstroNvim config & data.
+  reinstall   ▸ Back up existing AstroNvim dirs and install fresh template,
+                then copy your user config into lua/plugins, lua/community.lua, etc.
+  delete      ▸ PERMANENTLY delete all AstroNvim directories (config, share,
+                state, cache).
 
 Examples:
-  $(basename "$0") reinstall
+  $(basename "$0") reinstall ~/projects/my_nvim
   $(basename "$0") delete
 EOF
   exit 1
 }
 
-if [ $# -ne 1 ]; then
-  usage
-fi
-
+# ─── Argument parsing ──────────────────────────────────────────────────
+if (( $# < 1 )); then print_usage; fi
 MODE=$1
+SRC=${2:-}           # optional user config dir only needed for “reinstall”
 
-case $MODE in
+# ─── Helper: timestamped backup dir ────────────────────────────────────
+make_backup_dir() {
+  local ts; ts=$(date +%Y%m%d_%H%M%S)
+  local dir="$HOME/astronvim_backup_${ts}"
+  mkdir -p "$dir"
+  echo "$dir"
+}
+
+# ─── MAIN ──────────────────────────────────────────────────────────────
+case "$MODE" in
   reinstall)
-    TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-    BACKUP_DIR="$HOME/astronvim_backup_$TIMESTAMP"
-    echo "🔒 Creating backup directory: $BACKUP_DIR"
-    mkdir -p "$BACKUP_DIR"
-    mkdir -p "$BACKUP_DIR/share"
-    mkdir -p "$BACKUP_DIR/state"
+    # Sanity-check user config path
+    if [[ -z "$SRC" ]]; then
+      echo "❌  Missing <user-config-dir> argument for reinstall."
+      print_usage
+    fi
+    if [[ ! -d "$SRC" ]]; then
+      echo "❌  '$SRC' is not a directory."
+      exit 1
+    fi
 
-    mv "$HOME/.config/nvim" "$BACKUP_DIR"
-    mv "$HOME/.local/share/nvim" "$BACKUP_DIR/share"
-    mv "$HOME/.local/state/nvim" "$BACKUP_DIR/state"
+    # 1. Back-up existing installation ---------------------------------
+    BACKUP_DIR=$(make_backup_dir)
+    echo "🔒  Backing up existing AstroNvim to: $BACKUP_DIR"
+    for d in "${DIRS[@]}"; do
+      if [[ -e "$d" ]]; then
+        mv "$d" "$BACKUP_DIR"/
+      fi
+    done
 
-    echo "✨ Cloning fresh AstroNvim into ~/.config/nvim"
-    git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
-    rm -rf ~/.config/nvim/.git
+    # 2. Fresh AstroNvim template --------------------------------------
+    echo "✨  Cloning fresh AstroNvim into $CFG"
+    git clone --depth 1 https://github.com/AstroNvim/template "$CFG"
+    rm -rf "$CFG/.git"
 
-    echo "📥 Restoring custom settings..."
-    rm -rf ~/.config/nvim/lua/user
-    # Clone your user-config repo directly
-    # git clone https://github.com/joseananio/astronvim_config.git ~/.config/nvim/lua/plugins/user
-    ln -sfn "$BACKUP_DIR/nvim/lua/plugins/user" ~/.config/nvim/lua/plugins/user
+    # 3. Copy user overrides -------------------------------------------
+    echo "📥  Installing your config from '$SRC'..."
+    mkdir -p "$CFG/lua/old"
+    # move sample files aside (if present)
+    for f in "$CFG"/lua/plugins "$CFG"/lua/community.lua; do
+      [[ -e "$f" ]] && mv "$f" "$CFG/lua/old/"
+    done
+    # copy your own files
+    cp -a "$SRC"/{plugins,community.lua,init.lua,polish.lua} "$CFG/lua/" 2>/dev/null || true
 
-    # Bootstrap plugin & Mason package installation headlessly
-    # echo "🔧 Installing plugins & Mason packages (headless)…"
-    # nvim --headless \
-    #   -c 'autocmd User AstroStartPost lua require("lazy").sync()' \
-    #   -c 'MasonInstallAll' \
-    #   -c 'qall' # exit headless nvim
+    # 4. (Optional) Headless sync --------------------------------------
+    # echo "🔧  Bootstrapping plugins (headless)…"
+    # nvim --headless +'AstroUpdate' +'qall'
 
-    echo "Launching nvim to continue setup"
+    echo "🚀  Launching Neovim…"
     nvim
     ;;
 
   delete)
-    echo "🗑  Deleting AstroNvim directories..."
+    echo "🗑   Deleting AstroNvim directories:"
     for d in "${DIRS[@]}"; do
-      if [ -d "$d" ]; then
-        echo "🔨 Removing $d"
+      if [[ -d "$d" ]]; then
+        echo "  ‣ rm -rf $d"
         rm -rf "$d"
       else
-        echo "✅ Not found, skipping: $d"
+        echo "  ‣ (not found) $d"
       fi
     done
-    echo "🎉 Delete complete."
+    echo "✅  Delete complete."
     ;;
 
   *)
-    echo "❗ Unknown mode: $MODE"
-    usage
+    echo "❗  Unknown mode: $MODE"
+    print_usage
     ;;
-esac
-
-exit 0
+esacxit 0

@@ -18,18 +18,6 @@ git clone <repo> && cd dir
 
 Quit nvim and rerun
 
-- Ensure the `lazy_setup.lua` imports `lua/user/plugins`, else add it
-
-```lua
-  { import = "user/plugins" },
-```
-
-and in nvim/init.lua, at the end
-
-```lua
-require "user"
-```
-
 ```shell
 nvim
 :Lazy
