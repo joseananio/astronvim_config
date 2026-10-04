@@ -132,23 +132,9 @@ return {
 
   -- Allows easy navigation between nvim and tmux panels
 
-  {
-    "christoomey/vim-tmux-navigator",
-    cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
-    },
-    keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-    },
-  },
+  -- {
+  --   "christoomey/vim-tmux-navigator",
+  -- },
 
   -- Syntax highlighting
   -- NOTE: we use this and not the treesitter.lua one
@@ -175,4 +161,8 @@ return {
       vim.treesitter.language.register("markdown", "mdx")
     end,
   },
+  -- {
+  --   "github/copilot.vim",
+  --   event = "InsertEnter",
+  -- },
 }

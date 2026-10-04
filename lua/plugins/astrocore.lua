@@ -78,6 +78,12 @@ return {
         -- ToggleTerm
         ["<leader>ts"] = { "<cmd>TermSelect<cr>", desc = "Select terminal" },
         ["<leader>ta"] = { "<cmd>ToggleTerm name=app direction=float<cr>", desc = "App terminal" },
+
+        ["<C-h>"] = { function() require("smart-splits").move_cursor_left() end, desc = "Left window / tmux pane" },
+        ["<C-j>"] = { function() require("smart-splits").move_cursor_down() end, desc = "Down window / tmux pane" },
+        ["<C-k>"] = { function() require("smart-splits").move_cursor_up() end, desc = "Up window / tmux pane" },
+        ["<C-l>"] = { function() require("smart-splits").move_cursor_right() end, desc = "Right window / tmux pane" },
+        ["<C-\\>"] = { function() require("smart-splits").move_cursor_previous() end, desc = "Previous split" },
       },
 
       x = { -- visual mode
