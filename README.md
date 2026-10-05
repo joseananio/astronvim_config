@@ -4,19 +4,15 @@ A user configuration template for [AstroNvim](https://github.com/AstroNvim/Astro
 
 ## 🛠️ Installation
 
-#### Clone this repository and cd into it
+#### Back up any existing config, then clone this repository as your nvim config
 
 ```shell
-git clone <repo> && cd dir
+mv ~/.config/nvim ~/.config/nvim.bak
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+git clone https://github.com/joseananio/astronvim_config ~/.config/nvim
 ```
 
-#### Make a backup of your current nvim and shared folder and clone a new AstroNvim
-
-```shell
-./atronvim_manager.sh reinstall
-```
-
-Quit nvim and rerun
+Start nvim and let Lazy install everything
 
 ```shell
 nvim
